@@ -15,7 +15,9 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 
 Route::post('forget-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('forget.password.post');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
-
+Route::post('/shorten','App\Http\Controllers\ShortenController@shortenLink');
+Route::post('/redirect/{link}','App\Http\Controllers\ShortenController@redirectLink');
+Route::get('/get-link','App\Http\Controllers\ShortenController@getLink');
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::apiResource('users', UserController::class);
     Route::apiResource('posts', PostController::class);

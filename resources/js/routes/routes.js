@@ -7,6 +7,7 @@ const GuestLayout = ()  => import('../layouts/Guest.vue');
 const PostsIndex  = ()  => import('../views/admin/posts/Index.vue');
 const PostsCreate  = ()  => import('../views/admin/posts/Create.vue');
 const PostsEdit  = ()  => import('../views/admin/posts/Edit.vue');
+import Redirect from '../views/home/redirect.vue'
 
 function requireLogin(to, from, next) {
     let isLogin = false;
@@ -40,6 +41,11 @@ export default [
                 path: '/',
                 name: 'home',
                 component: () => import('../views/home/index.vue'),
+            },
+            {
+                path: '/:id',
+                name: 'redirect',
+                component: Redirect,
             },
             {
                 path: 'posts',
