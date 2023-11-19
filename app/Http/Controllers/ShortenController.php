@@ -4,14 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ShortenLink;
+use Carbon\Carbon;
 
 class ShortenController extends Controller
 {
     public function shortenLink(Request $req)
     {
         $link = new ShortenLink();
+        $now = Carbon::now();
+
+// Add 5 minutes
+$futureTime = $now->addMinutes(5);
         $link->link_redirect = $req->link_redirect;
         $link->link_shorten = $req->link_shorten;
+        $link->expire_time = $req->expire_time;
         $link->save();
         if ($link->save()) {
             return response()->json([

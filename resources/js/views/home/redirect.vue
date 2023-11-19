@@ -21,7 +21,7 @@ export default {
             .post(urlRedirect)
             .then((resp) => {
                 console.log("resp", resp.data.data);
-                window.open(resp.data.data);
+                window.location.replace(resp.data.data);
             })
             .catch((err) => {
                 alert(err);

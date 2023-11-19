@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <router-link to="/" class="navbar-brand">Laravel Vue Stater</router-link>
+            <router-link to="/" class="navbar-brand">Shorten Link</router-link>
             <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </a>
@@ -11,19 +11,19 @@
                 </ul>
                 <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
                         <li class="nav-item">
-                            <router-link to="/" class="nav-link" aria-current="page">{{ $t('home') }}</router-link>
+                            <router-link to="/" class="nav-link" aria-current="page"></router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link :to="{ name : 'public-posts.index'}" class="nav-link">Blog</router-link>
+                            <router-link :to="{ name : 'public-posts.index'}" class="nav-link"></router-link>
                         </li>
                     <template v-if="!user?.name">
                         <li class="nav-item">
                             <router-link class="nav-link" to="/login"
-                            >{{ $t('login') }}</router-link
+                            ></router-link
                             >
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/register">{{ $t('register') }}</router-link>
+                            <router-link class="nav-link" to="/register"></router-link>
                         </li>
                     </template>
                     <li v-if="user?.name" class="nav-item dropdown">

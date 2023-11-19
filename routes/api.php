@@ -18,6 +18,7 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::post('/shorten','App\Http\Controllers\ShortenController@shortenLink');
 Route::post('/redirect/{link}','App\Http\Controllers\ShortenController@redirectLink');
 Route::get('/get-link','App\Http\Controllers\ShortenController@getLink');
+Route::delete('/delete-link/{id}','App\Http\Controllers\ShortenController@deleteLink');
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::apiResource('users', UserController::class);
     Route::apiResource('posts', PostController::class);

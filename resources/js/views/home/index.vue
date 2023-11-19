@@ -1,31 +1,56 @@
 <template>
     <div class="container">
-        <h1>Shorten Link</h1>
-        <div class="search-box">
+        <div class="search-box" style="padding-top: 100px">
             <input
+            class="form-control"
                 type="text"
                 v-model="searchInput"
                 placeholder="Enter your link query"
+                id="myInput"
             />
-            <button @click="shortenLink()" v-if="copy">Search</button>
-            <button @click="shortenLink()" v-else>Copy</button>
+            <button @click="shortenLink()" v-if="!copy">Search</button>
+            <button @click="copyText()" v-else>Copy</button>
         </div>
-        <div class="search-box" style="margin-top: 10px">
-            <input
-                type="text"
-                v-model="nameLink"
-                placeholder="set name for link shorten"
-                style="margin-right: 5px"
-            />
-            <input type="text" readonly style="margin-right: 5px" />
-            <input type="text" readonly />
         </div>
-        <p>{{ linkShorten }}</p>
-        <p>{{ linkRedirect }}</p>
-        <div class="search-results" id="searchResults">
-            <!-- Search results will be displayed here -->
+        <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <!-- First Box with Input -->
+        <div class="form-group">
+          <label for="input1">Input 1:</label>
+          <input class="form-control" id="input1"
+                    type="text"
+                    v-model="nameLink"
+                    placeholder="set name for link shorten"
+                />
         </div>
+      </div>
+
+      <div class="col-md-4">
+        <!-- Second Box with Input -->
+        <div class="form-group">
+          <label for="input2">Input 2:</label>
+          <input type="text" class="form-control" id="input2" placeholder="Enter value for Input 2">
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <!-- Third Box with Select Option -->
+        <div class="form-group">
+          <label for="selectOption">Select Option:</label>
+          <select id="selectOption" class="form-control">
+                    <option
+                        v-for="(minus, index) in arrMinus"
+                        :key="index"
+                        :value="minus"
+                    >
+                        {{ minus }}
+                    </option>
+                </select>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -35,8 +60,9 @@ export default {
             searchInput: "",
             linkShorten: "",
             linkRedirect: "",
-            copy: true,
+            copy: false,
             nameLink: "",
+            arrMinus: [1, 2, 3, 4, 5],
         };
     },
     methods: {
@@ -59,6 +85,7 @@ export default {
             if (this.nameLink !== null) {
                 randomString = this.nameLink;
             }
+            console.log(randomString);
             let shortenLink = randomString;
             let url = "http://127.0.0.1:8000/api/shorten";
             await axios
@@ -67,7 +94,6 @@ export default {
                     link_shorten: shortenLink,
                 })
                 .then((resp) => {
-                    console.log("resp", resp);
                     alert("success");
                 });
 
@@ -76,8 +102,24 @@ export default {
 
             // Extract the string before the last "/"
             var result = url.substring(0, lastSlashIndex);
+            this.copy = true;
+            this.searchInput = result + "/" + shortenLink;
+        },
+        copyText() {
+            // Select the text in the input field
+            const inputField = document.getElementById("myInput");
+            inputField.select();
+
+            // Execute the copy command
+            document.execCommand("copy");
+
+            // Deselect the input field to avoid visual artifacts
+            inputField.selectionEnd = 0;
+
+            // Optionally, you can provide some feedback to the user
+            alert("Text copied to clipboard: " + inputField.value);
+            this.searchInput = "";
             this.copy = false;
-            this.linkShorten = result+'/'+shortenLink;
         },
     },
     watch: {},
@@ -109,7 +151,30 @@ a {
     display: flex;
     justify-content: space-between;
 }
+.input-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
 
+.input-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-item label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-container input,
+.input-container select {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
 .search-box input[type="text"] {
     width: 80%;
     padding: 10px;
