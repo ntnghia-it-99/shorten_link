@@ -19,11 +19,11 @@
                     <template v-if="!user?.name">
                         <li class="nav-item">
                             <router-link class="nav-link" to="/login"
-                            ></router-link
+                            >Login</router-link
                             >
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/register"></router-link>
+                            <router-link class="nav-link" to="/register">Sign in</router-link>
                         </li>
                     </template>
                     <li v-if="user?.name" class="nav-item dropdown">

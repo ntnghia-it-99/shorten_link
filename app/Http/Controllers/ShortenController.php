@@ -12,12 +12,14 @@ class ShortenController extends Controller
     {
         $link = new ShortenLink();
         $now = Carbon::now();
-
-// Add 5 minutes
-$futureTime = $now->addMinutes(5);
+        $futureTime = null;
+        if ($req->expire_time) {
+            $futureTime = $now->addMinutes($req->expire_time);
+        }
+        \Log::debug($req);
         $link->link_redirect = $req->link_redirect;
         $link->link_shorten = $req->link_shorten;
-        $link->expire_time = $req->expire_time;
+        $link->expire_time = $futureTime;
         $link->save();
         if ($link->save()) {
             return response()->json([
@@ -36,7 +38,7 @@ $futureTime = $now->addMinutes(5);
             // dd($url);
             return response()->json([
                 'message' => "Successfully",
-                'data' => $url->link_redirect
+                'data' => $url
             ], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Something went wrong', 'status' => 'Failed!'], 400);

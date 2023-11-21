@@ -20,8 +20,16 @@ export default {
         await axios
             .post(urlRedirect)
             .then((resp) => {
-                console.log("resp", resp.data.data);
-                window.location.replace(resp.data.data);
+                if (resp.data.data.expire_time) {
+                    var date1 = new Date();
+                    var date2 = new Date(resp.data.data.expire_time);
+                    if (date1.getTime() > date2.getTime()) {
+                        alert('link expired heheeheh')
+                        this.$router.push('/not-found')
+                        return
+                    }
+                }
+                window.location.replace(resp.data.data.link_redirect);
             })
             .catch((err) => {
                 alert(err);

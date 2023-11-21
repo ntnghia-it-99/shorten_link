@@ -205,4 +205,9 @@ export default [
         name: 'NotFound',
         component: () => import("../views/errors/404.vue"),
     },
+    {
+        path: "/not-found",
+        name: 'NotFound',
+        component: () => import("../views/errors/404.vue"),
+    },
 ];

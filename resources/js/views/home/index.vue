@@ -17,11 +17,11 @@
       <div class="col-md-4">
         <!-- First Box with Input -->
         <div class="form-group">
-          <label for="input1">Input 1:</label>
+          <label for="input1">Name Link:</label>
           <input class="form-control" id="input1"
                     type="text"
                     v-model="nameLink"
-                    placeholder="set name for link shorten"
+                    placeholder="set name link u want"
                 />
         </div>
       </div>
@@ -29,16 +29,16 @@
       <div class="col-md-4">
         <!-- Second Box with Input -->
         <div class="form-group">
-          <label for="input2">Input 2:</label>
-          <input type="text" class="form-control" id="input2" placeholder="Enter value for Input 2">
+          <label for="input2">Password Link:</label>
+          <input type="text" class="form-control" id="input2" placeholder="Set password for link" readonly>
         </div>
       </div>
 
       <div class="col-md-4">
         <!-- Third Box with Select Option -->
         <div class="form-group">
-          <label for="selectOption">Select Option:</label>
-          <select id="selectOption" class="form-control">
+          <label for="selectOption">Set expire Link (no login max 5 minus):</label>
+          <select id="selectOption" class="form-control" v-model="expireTime">
                     <option
                         v-for="(minus, index) in arrMinus"
                         :key="index"
@@ -63,6 +63,7 @@ export default {
             copy: false,
             nameLink: "",
             arrMinus: [1, 2, 3, 4, 5],
+            expireTime: 1
         };
     },
     methods: {
@@ -82,16 +83,15 @@ export default {
                 );
                 counter += 1;
             }
-            if (this.nameLink !== null) {
-                randomString = this.nameLink;
-            }
             console.log(randomString);
-            let shortenLink = randomString;
+            let shortenLink = this.nameLink ? this.nameLink : randomString;
+            console.log('short', shortenLink);
             let url = "http://127.0.0.1:8000/api/shorten";
             await axios
                 .post(url, {
                     link_redirect: this.searchInput,
                     link_shorten: shortenLink,
+                    expire_time: this.expireTime
                 })
                 .then((resp) => {
                     alert("success");
@@ -121,11 +121,7 @@ export default {
             this.searchInput = "";
             this.copy = false;
         },
-    },
-    watch: {},
-    mounted() {
-        console.log("Component mounted.");
-    },
+    }
 };
 </script>
 
